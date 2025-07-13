@@ -1,0 +1,77 @@
+import ollama
+import os
+import socket
+
+def is_connected():
+    """Check internet connectivity."""
+    try:
+        socket.create_connection(("1.1.1.1", 53), timeout=1)
+        return True
+    except Exception:
+        return False
+
+def text_query():
+    question = input("Enter your text question:\n> ").strip()
+    try:
+        response = ollama.chat(
+            model='llava',
+            messages=[
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ]
+        )
+        print("\nResponse:\n", response['message']['content'])
+    except Exception as e:
+        print("❌ Error:", e)
+
+def image_query():
+    image_path = input("Enter the relative path to your image (e.g. ./image.jpg):\n> ").strip()
+    
+    if not os.path.isfile(image_path):
+        print("❌ Error: Image file not found at", image_path)
+        return
+    
+    question = input("Enter your text question about the image:\n> ").strip()
+
+    try:
+        response = ollama.chat(
+            model='llava',
+            messages=[
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ],
+            images=[image_path]
+        )
+        print("\nResponse:\n", response['message']['content'])
+    except Exception as e:
+        print("❌ Error:", e)
+
+def main():
+    if is_connected():
+        print("⚠️  Warning: You are currently connected to the internet.")
+        print("This tool is designed to run completely offline.")
+        print("You may disconnect your internet for full privacy.\n")
+
+    while True:
+        print("\nWhat would you like to do?")
+        print("1. Text-only query")
+        print("2. Image + text query")
+        print("3. Exit")
+        choice = input("> ").strip()
+
+        if choice == '1':
+            text_query()
+        elif choice == '2':
+            image_query()
+        elif choice == '3':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice, please enter 1, 2, or 3.")
+
+if __name__ == "__main__":
+    main()
