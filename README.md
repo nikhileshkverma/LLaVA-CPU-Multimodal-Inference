@@ -278,5 +278,16 @@ python3 --version  # should be 3.10+
 This project is open-source under the **MIT License**.
 
 ---
+## 📚 References
 
-Would you like me to generate this as a downloadable `README.md` file for your repo?
+Improved Baselines with Visual Instruction Tuning
+https://arxiv.org/pdf/2310.03744
+
+Visual Instruction Tuning
+https://arxiv.org/pdf/2304.08485
+
+llama.cpp – A port of Facebook’s LLaMA model in C/C++
+https://github.com/ggml‑org/llama.cpp
+
+
+
